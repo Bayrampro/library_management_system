@@ -18,25 +18,42 @@ def main():
         if choice == "1":
             title = input("Введите название книги: ")
             author = input("Введите автора книги: ")
-            year = int(input("Введите год издания: "))
-            library.add_book(title, author, year)
+            try:
+                year = int(input("Введите год издания: "))
+                library.add_book(title, author, year)
+            except ValueError:
+                print("Ошибка: Год должен быть числом.")
 
         elif choice == "2":
-            book_id = int(input("Введите ID книги для удаления: "))
-            library.delete_book(book_id)
+            try:
+                book_id = int(input("Введите ID книги для удаления: "))
+                library.delete_book(book_id)
+            except ValueError:
+                print("Ошибка: ID книги должен быть числом.")
 
         elif choice == "3":
             field = input("Введите поле для поиска (title, author, year): ").lower()
+            if field not in ["title", "author", "year"]:
+                print("Ошибка: Некорректное поле поиска. Доступные поля: title, author, year.")
+                continue
             value = input("Введите значение для поиска: ")
-            library.search_books(field, value)
+            results = library.search_books(field, value)
+            if results:
+                for book in results:
+                    print(library.format_book(book))
+            else:
+                print("Книги не найдены.")
 
         elif choice == "4":
             library.list_books()
 
         elif choice == "5":
-            book_id = int(input("Введите ID книги: "))
-            status = input("Введите новый статус (в наличии/выдана): ")
-            library.update_status(book_id, status)
+            try:
+                book_id = int(input("Введите ID книги: "))
+                status = input("Введите новый статус (в наличии/выдана): ").lower()
+                library.update_status(book_id, status)
+            except ValueError:
+                print("Ошибка: ID книги должен быть числом.")
 
         elif choice == "6":
             print("До свидания!")
@@ -44,6 +61,7 @@ def main():
 
         else:
             print("Неверный выбор. Попробуйте снова.")
+
 
 if __name__ == "__main__":
     main()

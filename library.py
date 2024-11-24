@@ -4,17 +4,22 @@ from typing import List, Dict
 
 DATA_FILE = "storage.json"
 
-
 class Library:
     def __init__(self):
         self.books = self.load_books()
 
-    def load_books(self)-> List[Dict]:
+    def load_books(self) -> List[Dict]:
         """Загружает книги из JSON-файла."""
         if os.path.exists(DATA_FILE):
             with open(DATA_FILE, "r") as file:
-                return json.load(file)
-        return []
+                try:
+                    return json.load(file)
+                except json.JSONDecodeError:
+                    print("Ошибка чтения данных из файла. Файл повреждён или пуст.")
+                    return []
+        else:
+            print("Файл данных не найден, создаём новый.")
+            return []
 
     def save_books(self):
         """Сохраняет книги в JSON-файл."""
