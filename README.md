@@ -20,7 +20,7 @@ Library Manager — консольное приложение для управ�
 
 1. Убедитесь, что установлен Python 3.6+.
 2. Склонируйте проект:
-   git clone <URL репозитория>
+   git clone https://github.com/Bayrampro/library_management_system
    cd library_manager
 3. Запустите приложение:
    python main.py
