@@ -1,13 +1,15 @@
 import json
 import os
+from typing import List, Dict
 
 DATA_FILE = "storage.json"
+
 
 class Library:
     def __init__(self):
         self.books = self.load_books()
 
-    def load_books(self):
+    def load_books(self)-> List[Dict]:
         """Загружает книги из JSON-файла."""
         if os.path.exists(DATA_FILE):
             with open(DATA_FILE, "r") as file:
@@ -19,7 +21,7 @@ class Library:
         with open(DATA_FILE, "w") as file:
             json.dump(self.books, file, indent=4)
 
-    def add_book(self, title, author, year):
+    def add_book(self, title: str, author: str, year: int) -> None:
         """Добавляет новую книгу в библиотеку."""
         new_book = {
             "id": len(self.books) + 1,
@@ -32,7 +34,7 @@ class Library:
         self.save_books()
         print(f"Книга '{title}' добавлена с ID {new_book['id']}.")
 
-    def delete_book(self, book_id):
+    def delete_book(self, book_id: int) -> None:
         """Удаляет книгу по ID."""
         for book in self.books:
             if book["id"] == book_id:
@@ -42,14 +44,12 @@ class Library:
                 return
         print(f"Книга с ID {book_id} не найдена.")
 
-    def search_books(self, field, value):
-        """Ищет книги по заданному полю."""
-        results = [book for book in self.books if str(book.get(field, "")).lower() == value.lower()]
-        if results:
-            for book in results:
-                print(self.format_book(book))
-        else:
-            print("Книги не найдены.")
+    def search_books(self, field: str, value: str) -> list:
+        """
+         Поиск книг по указанному полю и значению.
+         """
+        results = [book for book in self.books if str(book.get(field, '')).lower() == value.lower()]
+        return results
 
     def list_books(self):
         """Выводит список всех книг."""
