@@ -52,6 +52,7 @@ class Library:
     def search_books(self, field: str, value: str) -> list:
         """
          Поиск книг по указанному полю и значению.
+
          """
         results = [book for book in self.books if str(book.get(field, '')).lower() == value.lower()]
         return results
